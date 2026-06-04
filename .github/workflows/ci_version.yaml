@@ -1,10 +1,14 @@
-name: Semantic Release
+name: CI Version
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
 
 permissions:
   contents: write
@@ -13,6 +17,7 @@ permissions:
 
 jobs:
   release:
+    if: github.event_name == 'push' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -32,7 +37,7 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Install semantic-release
+      - name: Install semantic-release dependencies
         run: |
           npm install --no-save semantic-release \
             @semantic-release/changelog \
@@ -43,7 +48,7 @@ jobs:
             @semantic-release/release-notes-generator \
             conventional-changelog-conventionalcommits
 
-      - name: Release
+      - name: Run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx semantic-release
