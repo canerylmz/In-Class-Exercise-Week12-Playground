@@ -1,3 +1,11 @@
+## [2.0.0](https://github.com/canerylmz/In-Class-Exercise-Week12-Playground/compare/v1.1.0...v2.0.0) (2026-06-04)
+
+### ⚠ BREAKING CHANGES
+
+* Readme file changed major.
+
+* Merge pull request [#4](https://github.com/canerylmz/In-Class-Exercise-Week12-Playground/issues/4) from canerylmz/break/readme-file-changed ([9bb41c5](https://github.com/canerylmz/In-Class-Exercise-Week12-Playground/commit/9bb41c585eb361dfaf7f6a627035999906c865aa))
+
 ## [1.1.0](https://github.com/canerylmz/In-Class-Exercise-Week12-Playground/compare/v1.0.2...v1.1.0) (2026-06-04)
 
 ### Features
