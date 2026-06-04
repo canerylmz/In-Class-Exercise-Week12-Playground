@@ -11,6 +11,8 @@ if exist requirements.txt (
     pip install django
 )
 
+python manage.py migrate --noinput
+
 powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-CimInstance Win32_Process | Where-Object { $_.CommandLine -match 'manage.py runserver' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }"
 
 set RUNNER_TRACKING_ID=
