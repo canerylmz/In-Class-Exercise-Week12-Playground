@@ -1,4 +1,4 @@
-This is a bug fix
+This is another bug fix
 
 # Django Tutorial
 
