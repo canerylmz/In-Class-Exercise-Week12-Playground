@@ -1,0 +1,41 @@
+name: CD Localhost
+
+on:
+  workflow_run:
+    workflows:
+      - CI Version
+    branches:
+      - main
+    types:
+      - completed
+
+jobs:
+  deploy:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v4
+
+      - name: Set up Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if (Test-Path requirements.txt) {
+            pip install -r requirements.txt
+          } else {
+            pip install django
+          }
+
+      - name: Stop previous Django server
+        run: |
+          Get-CimInstance Win32_Process |
+            Where-Object { $_.CommandLine -match "manage.py runserver" } |
+            ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
+
+      - name: Start Django server on localhost
+        run: |
+          Start-Process -FilePath "python" `
+            -ArgumentList "manage.py runserver 127.0.0.1:8000" `
+            -WorkingDirectory "$PWD" `
+            -WindowStyle Hidden
