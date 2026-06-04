@@ -1,19 +1,19 @@
-$ErrorActionPreference = "Stop"
+param(
+    [string]$DeployDir = (Resolve-Path ".").Path,
+    [string]$LogDir = (Resolve-Path ".").Path
+)
 
-$workspace = $env:GITHUB_WORKSPACE
-if (-not $workspace) {
-    $workspace = (Resolve-Path ".").Path
-}
+$ErrorActionPreference = "Stop"
 
 $env:RUNNER_TRACKING_ID = $null
 
-$stdoutLog = Join-Path $workspace "django-server.log"
-$stderrLog = Join-Path $workspace "django-server-error.log"
+$stdoutLog = Join-Path $LogDir "django-server.log"
+$stderrLog = Join-Path $LogDir "django-server-error.log"
 
 Start-Process `
     -FilePath "python" `
     -ArgumentList @("manage.py", "runserver", "127.0.0.1:8000", "--noreload") `
-    -WorkingDirectory $workspace `
+    -WorkingDirectory $DeployDir `
     -RedirectStandardOutput $stdoutLog `
     -RedirectStandardError $stderrLog `
     -WindowStyle Hidden
